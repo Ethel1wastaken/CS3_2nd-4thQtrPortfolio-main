@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Q3 2nd Graded Exercise">
+    <meta name="keywords" content="HTML Forms">
+    <meta name="author" content="Elijah Gamis">
+    <title>Sample Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <style>
+    body{
+        padding: 25px;
+        font-family: arial;
+        width: 80%;
+        margin-left: 10%;
+        }
+
+        .title {
+            color: #5C6AC4;
+        }
+
+        fieldset:nth-child(2) {
+             margin-top: 20px;
+        }
+
+        legend {
+            background: black;
+            color: yellow;
+            padding: 5px;
+        }
+        label {
+             margin: 5%;
+        }
+    </style>
+  </head>
+  <body>
+     <header>
+        <div>
+            <h1>
+                2NdGraded Exercise   
+            </h1>
+            <h3>by Elijah Gamis </h3>
+        </div>
+        <nav class="navbar">
+            <a href="../../index.html"> Home </a>
+            <a href="viewSignUps.html"> Show Saved Accounts </a>
+        </nav>
+    </header>
+    <section>
+      <h1 class="title">Sign-up Page</h1>
+      <form id="dForm" method="get" onsubmit="return confirm('Are you sure?');">
+        <fieldset>
+          <legend>Your Credentials</legend><br/>
+          <label> Student ID: 
+            <input type="number" name="studID" id="studID" onblur="resetColor(this)" required />
+          </label><br/><br/>
+          <label> Full Name: 
+            <input type="text" name="studName" id="studName" onblur="resetColor(this)" required />
+          </label><br/><br/>
+          <label> Date Of Birth :
+            <input type="date" name="dob" id="dob" onblur="resetColor(this)" required />
+          </label><br/><br/>
+          <label> Email Address:
+            <input type="email" name="email" id="email" onblur="resetColor(this)" required />
+          </label><br/><br/>
+        </fieldset><fieldset><legend>Additional Information</legend><br/>
+          <label> Mobile Phone:
+            <input type="text" name="phone" id="phone" onblur="resetColor(this)" />
+          </label><br/><br/>
+          <label for="grad">Grade Level</label></br>
+
+ <select name="grade" id="grad">
+
+    <option value="7">Grade 7</option>
+
+    <option value="8">Grade 8</option>
+
+    <option value="9">Grade 9</option>
+    <option value="10">Grade 10</option>
+    <option value="11">Grade 11</option>
+    <option value="12">Grade 12</option>
+
+</select>
+<br/><br/>
+          <label> Intern/Extern : <br/>
+            <input type="radio" name="intext" value="extern" /> Extern<br/>
+            <input type="radio" name="intext" value="intern" /> Intern
+          </label><br/><br/>
+          <label for="club">Preferred Organization/Club</label></br>
+
+ <select name="club" id="club">
+
+    <option value="dnd">Intyale</option>
+
+    <option value="sudoku">Sapienara</option>
+
+    <option value="arts">Likha</option>
+
+    <option value="3dprint">Pisay XYZ</option>
+
+    <option value="swim">Flux</option>
+
+</select>
+<br/><br/>
+          <label> 
+            <input type="checkbox" name="dp" id="dp" value="true" /> 
+            Agree to Data Privacy Policy
+          </label><br/><br/>
+          <label> Why do you want to join?<br/>
+            <textarea name="about" id="about">
+              
+            </textarea>
+          </label><br/><br/></fieldset>
+          
+          
+        </fieldset>  
+        <fieldset>
+          <legend>Action Buttons</legend>
+          <button type="submit"> Accept </button>
+          <input type="reset" value=" Clear " />
+        </fieldset> 
+      </form>
+    </section>
+    <script>
+      const form = document.getElementById("dForm"); // get the HTML form
+      form.addEventListener("reset", function() {
+        return confirm("Are you sure?");
+      });
+      // resetColor will set background to white on blur
+      function resetColor(ele) {
+                console.log(ele);
+                ele.style.backgroundColor = "white";
+            }
+      let acctString = localStorage.getItem("accounts")
+if (!acctString) { accountList = {} } // initialize the variable to contain the list of accounts object
+else accountList = JSON.parse(acctString) // converts string into the correct data type in this case object
+
+// form already declared above
+
+
+
+// event handler on the submit button instead of onsubmit on the button itself
+form.addEventListener("submit", function(e) { // assign an event handler of submit to the form
+    e.preventDefault(); // prevent page reload because forms gets submitted
+
+    if (confirm("Sure You Want To Save Your Work?")) {   
+        // use a predefined class to create an object of data
+        const data = new FormData(form);
+
+        // Convert to object
+        const obj = Object.fromEntries(data.entries()); // get all the data from the form
+        // place the object inside the accountList
+        // accountList is an object containing other objects with student ID as the key
+        accountList[obj.studID] = {};
+        for (let key in obj) { // go through the properties of the object and create another account
+            if (key != "studID") { 
+                accountList[obj.studID][key] = obj[key];
+            }
+        }
+        
+        console.log(accountList) // to check all the account information if it will be saved correctly
+        acctString = JSON.stringify(accountList) // convert object into string, as a requirement of localStorage
+        localStorage.setItem("accounts", acctString) // save on the user's computer
+        form.submit();
+    }
+  });
+
+// event handler for the reset button instead of onreset on the button itself
+form.addEventListener("reset", function(e) { // 
+  // Ask for confirmation before clearing
+  if (!confirm("Sure you want to clear your data?")) {
+    e.preventDefault(); // cancel the reset if user clicks "Cancel"
+  }
+});
+
+// called when user is on the input field
+function changeColor(ele) {
+  console.log(ele);
+  ele.style.backgroundColor = "blue";
+} 
+function resetColor(ele) {
+  console.log(ele);
+  ele.style.backgroundColor = "white";
+} 
+    </script>
+  </body>
+</html>

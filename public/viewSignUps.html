@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Q3 2nd Graded Exercise">
+    <meta name="keywords" content="HTML Forms">
+    <meta name="author" content="Elijah Gamis">
+    <title>Sample Form</title>
+    <!-- updated external css link to show how to share it between repository -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="icon" href="../../assets/pshslogo.png" sizes="32x32" type="image/png">
+    <script src="script.js" defer></script>
+   <style>
+    body{
+        padding: 25px;
+        font-family: arial;
+        width: 80%;
+        margin-left: 10%;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    table, th, td {
+        border: 1px solid white;
+        padding: 5px;
+    }
+    </style>
+  </head>
+  <body>
+     <header>
+        <div>
+            <h1>
+                Show List of Accounts    
+            </h1>
+            <h3>by Elijah Gamis </h3>
+        </div>
+        <nav class="navbar">
+            <a href="../../index.html"> Home </a>
+            <a href="Q3_2GMagnesiumGamis.html"> Create Account </a>
+        </nav>
+    </header>
+    <section>
+      <h1 class="title">Account Saved In Your Computer</h1>
+      <label for="clubFilter">Filter by Club:</label>
+      <select id="clubFilter">
+        <option value="all">All Clubs</option>
+      </select>
+
+      <p id="totalCount">Total sign-ups: 0</p>
+
+      <table id="results"> </table>
+      
+    </section>
+    <script>
+        const results = document.getElementById("results");
+        const clubFilter = document.getElementById("clubFilter");
+        const totalCount = document.getElementById("totalCount");
+
+        let acctString = localStorage.getItem("accounts");
+
+
+        function renderTable(accList, filterClub = 'all') {
+            const header = "<tr><th>Username</th><th>Student ID</th><th>Full Name</th><th>DOB</th><th>Email</th><th>Phone</th><th>Grade</th><th>Club</th></tr>";
+            let rows = "";
+
+            let count = 0;
+            for (let key in accList) {
+                const acct = accList[key];
+                const club = acct.club || "";
+
+                if (filterClub === 'all' || club === filterClub) {
+                    rows += "<tr>";
+                    rows += "<td>" + key + "</td>";
+                    rows += "<td>" + (acct.studID || "") + "</td>";
+                    rows += "<td>" + (acct.studName || "") + "</td>";
+                    rows += "<td>" + (acct.dob || "") + "</td>";
+                    rows += "<td>" + (acct.email || "") + "</td>";
+                    rows += "<td>" + (acct.phone || "") + "</td>";
+                    rows += "<td>" + (acct.grade || "") + "</td>";
+                    rows += "<td>" + (club) + "</td></tr>";
+                    count++;
+                }
+            }
+
+            if (count === 0) {
+                rows = "<tr><td colspan='8'>No sign-ups for selected club</td></tr>";
+            }
+
+            results.innerHTML = header + rows;
+            totalCount.textContent = "Total sign-ups: " + count;
+        }
+
+        if (!acctString) {
+            renderTable(null);
+        } else {
+            const accList = JSON.parse(acctString);
+            console.log(accList);
+
+            const clubs = new Set();
+            for (let uhruy in accList) {
+                if (accList[uhruy].club) clubs.add(accList[uhruy].club);
+            }
+
+            const clubLabels = { dnd: 'Intyale', sudoku: 'Sapienara', arts: 'Likha', '3dprint': 'Pisay XYZ', swim: 'Flux' };
+
+            for (const irr of Array.from(clubs).sort()) {
+                const opt = document.createElement('option');
+                opt.value = irr;
+                opt.textContent = clubLabels[irr] || irr;
+                clubFilter.appendChild(opt);
+            }
+
+            renderTable(accountList, 'all');
+
+            clubFilter.addEventListener('change', function() {
+                renderTable(accountList, this.value);
+            });
+        }
+
+    </script>
+  </body>
+</html>
