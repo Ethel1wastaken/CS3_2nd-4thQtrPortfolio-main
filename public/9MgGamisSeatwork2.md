@@ -56,18 +56,22 @@
 - Add in css ```position: relative; top: 20px; left: 20px;``` to .sidebar.
 
 - Guided Question: What changed compared to the default static positioning? Try to give different values to top and left or you can change it to bottom, right.
+The relative positioning changed the position of the element relative to its original position when static.
 
 ### Step 2 (Fixed):
 
 - Add in css ```position: fixed; bottom: 0; width: 100%;``` to .footer.
 
 - Guided Question: What happens when you scroll the page? Why does the footer behave differently from position relative?
+The footer stays in place. It is different from position relative in that it does not move relative to the screen when scrolled.
+
 
 ### Step 3 (Absolute):
 
 - Add in css ```position: absolute; top: 66px; left: 200px;``` to .content.
 
 - Guided Question: What is the effect of position: absolute on an element? How is it different from fixed?
+position absolute fixes the element to a specific point on the webpage. It is different from fixed, which is not affected by scrolling and fixes the element to a point on the screen.
 
 ### Step 4 : (Absolute)
 
@@ -88,19 +92,29 @@
 
 - Guided Question: Why does the notice appear on top of the content? What happens if you swap the z‑index values?
 The z-index determines which elements show up in the front of the page.
-                    A higher z-index means the element has higher priority and will be shown more in front as compared to a lower z-index.
+A higher z-index means the element has higher priority and will be shown more in front as compared to a lower z-index.
 
 - Challenge: 
     * What changes that you have to do on the code that will position .notice box on the top right corner of the .content box? Please write the code on paper as well (both html and css on the part of .notice and .content).
+    I need to position .notice so that it is a child of .content, then make its top and right 0.
     * Try to change the position of .content to relative then to fixed. What do you observed each time?
+    Relative allows me to scroll, but fixed keeps it in the same position onsreen, preventing me from further scrolling down to read more text.
     * What do you observe on about the effect of z-index on .notice and .content boxes?
+    Because .notice has a higher z-index, it appears on top of .content.
 
 3. Please answer the following reflection questions (15 minutes)
 
     a. Could you summarize the differences between the CSS position values (static, relative, absolute, fixed)? 
+    Static - default position of element when loaded on screen.
+    Relative - position of element relative to static position
+    Absolute - position of element relative to webpage
+    Fixed - position of element relative to screen
 
     b. How does absolute positioning depend on its parent element?
+    The position of the absolute element is from within its parent container. If it says top: 30px, then the element will be positioned 30px from the top of the container.
 
     c. How do you differentiate sticky from fixed (you can research on sticky)?
+    Fixed always fixes an element to the screen, while sticky has a "scroll threshold" before it sticks to the screen.
 
     d. If you were designing a webpage for a school event, how might you use positioning to highlight important information? Please give concrete examples.
+    Important information would either be fixed or stickied so that it would be visible wherever the user scrolls. I would also make sure to give it the highest z-index so that it will surely appear over all other elements.
